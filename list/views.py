@@ -8,11 +8,13 @@ from list.models import Task, Tag
 
 class TaskListView(generic.ListView):
     model = Task
+    paginate_by = 5
 
 
 class TaskCreateView(generic.CreateView):
     model = Task
     form_class = TaskForm
+    success_url = reverse_lazy("list:task-list")
 
 
 class TaskUpdateView(generic.UpdateView):
@@ -28,6 +30,7 @@ class TaskDeleteView(generic.DeleteView):
 
 class TagListView(generic.ListView):
     model = Tag
+    paginate_by = 5
 
 
 class TagCreateView(generic.CreateView):
@@ -51,7 +54,7 @@ class TagDeleteView(generic.DeleteView):
 
 def task_status(request, pk):
     task = Task.objects.get(pk=pk)
-    task.progress = not task.progress
+    task.is_completed = not task.is_completed
     task.save()
 
     return redirect(reverse("list:task-list"))

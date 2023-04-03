@@ -11,12 +11,7 @@ class TaskForm(forms.ModelForm):
         required=False
     )
 
-    deadline = forms.DateField(
-        widget=SelectDateWidget(
-            empty_label=("year", "month", "day")),
-        required=False
-    )
-
     class Meta:
         model = Task
+        widgets = {"deadline": forms.DateTimeInput(attrs={"type": "datetime-local"})}
         fields = ["name", "deadline", "tags"]
